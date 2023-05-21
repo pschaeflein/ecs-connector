@@ -1,0 +1,13 @@
+@baseUrl = https://localhost:7007
+#@baseUrl = https://gw6z58x5-7007.uks1.devtunnels.ms
+
+# Get all categories
+GET https://localhost:7007/api/ChuckNorrisJokes/categories
+Authorization: Bearer {{$aadV2Token scopes:api://0a8d25bd-1e92-4e42-acd2-5a350b4190d1/access_as_user tenantid:scmvp.net clientid:f79e0bc0-da66-4e3d-9ad7-a6bccd26707b }}
+
+# Get a joke
+GET https://localhost:7007/api/ChuckNorrisJokes/joke?category=explicit
+Authorization: Bearer {{$aadV2Token scopes:api://0a8d25bd-1e92-4e42-acd2-5a350b4190d1/access_as_user tenantid:scmvp.net clientid:f79e0bc0-da66-4e3d-9ad7-a6bccd26707b }}
+
+
+GET https://api.chucknorris.io/jokes/random

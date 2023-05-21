@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "CustomConnector": {
+      "restored": true,
+      "restoreTime": "2023-05-17T18:51:35.6538155Z"
+    },
+    "identityapp1": {
+      "restored": true,
+      "restoreTime": "2023-05-16T07:41:57.161034Z"
+    }
+  },
+  "parameters": {}
+}

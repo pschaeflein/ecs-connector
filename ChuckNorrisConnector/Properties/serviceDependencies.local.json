@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": null,
+      "type": "identityapp.default",
+      "connectionId": "AzureAD:ClientSecret"
+    },
+    "CustomConnector": {
+      "connectionInfo": "Custom Connector: ChuckNorrisConnector_Connector (Environment: ECS2023)",
+      "connectorName": "ChuckNorrisConnector_Connector",
+      "environmentUrl": "https://orgfb9baab7.crm4.dynamics.com/",
+      "environmentId": "dbac7cea-e6c3-ec7e-8e61-22864f2f224c",
+      "type": "powerplatform.local"
+    }
+  }
+}
