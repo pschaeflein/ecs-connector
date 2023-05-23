@@ -1,18 +1,18 @@
 ﻿using ChuckNorrisConnector.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.ContentModerator;
+using Microsoft.Azure.CognitiveServices.ContentModerator.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.IO;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ChuckNorrisConnector.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [Consumes("application/json")]
+  [Produces("application/json")]
   public class ChuckNorrisJokesController : ControllerBase
   {
     //private const string UNSUBSCRIBE_URL = "https://[dev-tunnel-address]/api/ChuckNorrisJokes/Unsubscribe/{0}";
@@ -33,7 +33,7 @@ namespace ChuckNorrisConnector.Controllers
     }
 
     // Saves the flow trigger endpoint in Memory to be able to send request to the flow
-    [HttpPost("Subscribe")]
+    [HttpPost("Subscribe", Name ="Subscribe")]
     public async Task<IActionResult> SubscribeTriggerUrl(SubscribeRequest subscribeRequest)
     {
       var instanceId = Guid.NewGuid().ToString();
@@ -52,7 +52,7 @@ namespace ChuckNorrisConnector.Controllers
     }
 
     // Remove the flow trigger endpoint if the flow has been deleted
-    [HttpDelete("Unsubscribe/{flowInstanceId}")]
+    [HttpDelete("Unsubscribe/{flowInstanceId}", Name ="Unsubscribe")]
     public async Task<IActionResult> UnsubscribeTriggerUrl(string flowInstanceId)
     {
       // remove the url from the dictionary 
@@ -73,8 +73,16 @@ namespace ChuckNorrisConnector.Controllers
 
     }
 
+    /// <summary>
+    /// Get a moderated list of joke categories
+    /// </summary>
+    /// <returns></returns>
     [Authorize]
-    [HttpGet("categories")]
+    [HttpGet("categories",Name ="Categories")]
+    [SwaggerOperation(
+      Summary = "Creates a new product",
+      Description = "Requires admin privileges",
+      OperationId = "CreateProduct")]
     public async Task<IActionResult> GetCategories()
     {
       var categories = await _service.GetCategories();
@@ -83,8 +91,14 @@ namespace ChuckNorrisConnector.Controllers
       return Ok(categories);
     }
 
+    /// <summary>
+    /// Get a moderated joke in the specified category
+    /// </summary>
+    /// <param name="category"></param>
+    /// <returns></returns>
     [Authorize]
-    [HttpGet("joke")]
+    [HttpGet("joke", Name ="Joke")]
+    [ProducesResponseType(typeof(Joke), 200)]
     public async Task<IActionResult> GetJoke([FromQuery] string? category = null)
     {
       var joke = await _service.GetJoke(category);

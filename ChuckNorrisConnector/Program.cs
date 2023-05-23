@@ -2,6 +2,7 @@ using ChuckNorrisConnector.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using System.Reflection;
 
 namespace ChuckNorrisConnector
 {
@@ -22,7 +23,11 @@ namespace ChuckNorrisConnector
       builder.Services.AddControllers();
       // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
       builder.Services.AddEndpointsApiExplorer();
-      builder.Services.AddSwaggerGen();
+      builder.Services.AddSwaggerGen(options =>
+      {
+        var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+      });
 
       var app = builder.Build();
 
